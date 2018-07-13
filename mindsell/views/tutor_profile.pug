@@ -1,0 +1,360 @@
+extend layout
+block content
+	include ./includes/home
+	script(src='../js/tutor_profile.js')
+	.container.user-profile
+		.panel.panel-default
+			.panel-heading
+				h3.panel-title Profile
+			ul.list-group
+				.container
+					.row.ss-item
+						.col-md-2
+							if (tutor.photo)
+								img#profile-picture.img-responsive(alt="Profile Picture" src='../img/user/'+tutor.photo)
+							else
+								img#profile-picture.img-responsive(alt="Profile Picture" src='../img/empty_img.gif')
+							.ss-item-text
+								h5.user-name#user-name #{tutor.nickname}
+						.col-md-4.chart-container
+							canvas#tutorChart
+					.row.ss-item
+						.col-md-6
+							if (user != NULL)
+								button#subscribe(type="button") Follow
+							a.livestream-button.fa.fa-youtube-play#streaming(style="background-color:#FF4500; color: white") &nbsp;Streaming now!
+					.row.ss-item
+						.col-md-6
+							.row.statistic-container(style="width:800px")
+								.follower-statistic#follower-statistic.statistic-button.fa.fa-heart  Followers
+									.follower-count #{tutor.followers}
+								.following-statistic#following-statistic.statistic-button.fa.fa-thumbs-up  Following
+									.follwing-count #{tutor.followings}
+								.review-statistic#review-statistic.statistic-button.fa.fa-thumbs-up  Reviews &nbsp;&nbsp;
+									.review-count 18
+							.row
+								textarea.self-introduction#self-introduction(style='pointer-events: none') #{tutor.introduction}
+
+	.container.course-management
+		.panel.panel-default
+			.panel-heading
+				h3.panel-title Course
+			ul.list-group
+				li.list-group-item
+					.row.toggle#dropdown-detail-1(data-toggle='detail-1')
+						.col-xs-10 Following
+						.col-xs-2
+							i.fa.fa-chevron-down.pull-right
+					#detail-1
+						hr
+						.container
+							.fluid-row
+								.col-xs-12.col-sm-2
+									figure
+										a.following-profile(href='/')
+											img.img-responsive.img-circle(src='http://api.randomuser.me/portraits/men/35.jpg', alt='Scott AAA')
+										figcaption.following-username
+											h5 Peter
+								.col-xs-12.col-sm-2
+									figure
+										a.following-profile(href='/')
+											img.img-responsive.img-circle(src='http://api.randomuser.me/portraits/women/90.jpg', alt='Scott AAA')
+										figcaption.following-username
+											h5 Mary Wong
+								.col-xs-12.col-sm-2
+									figure
+										a.following-profile(href='/')
+											img.img-responsive.img-circle(src='http://api.randomuser.me/portraits/women/56.jpg', alt='Scott AAA')
+										figcaption.following-username
+											h5 Sally 																			
+								.col-xs-12.col-sm-2
+									figure
+										a.following-profile(href='/')
+											img.img-responsive.img-circle(src='http://api.randomuser.me/portraits/men/14.jpg', alt='Scott AAA')
+										figcaption.following-username
+											h5 John												
+								.col-xs-12.col-sm-2
+									figure
+										a.following-profile(href='/')
+											img.img-responsive.img-circle(src='http://api.randomuser.me/portraits/men/34.jpg', alt='Scott AAA')
+										figcaption.following-username
+											h5 Tommy												
+				li.list-group-item
+					.row.toggle#dropdown-detail-2(data-toggle='detail-2')
+						.col-xs-10 Your Courses
+						.col-xs-2
+							i.fa.fa-chevron-down.pull-right
+					#detail-2
+						hr
+						.container
+							.fluid-row.ss-item
+								.col-md-2
+									a(href='/')
+										img(src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif" alt="Title" class="img-responsive")
+									.ss-item-text
+										h5.item-title 情侶皮革咭片套製作
+											h5.item-details
+												i.item-price
+													| Free
+												i.student-count.fa.fa-user-o
+													|  138
+												i.favorite-count.fa.fa-heart-o
+													|  211
+													i &nbsp;
+								.col-md-2
+									a(href='/')
+										img(src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif" alt="Title" class="img-responsive")
+									.ss-item-text
+										h5.item-title 教老友記點用智能電話
+											h5.item-details
+												i.item-price
+													| Free
+												i.student-count.fa.fa-user-o
+													|  98
+												i.favorite-count.fa.fa-heart-o
+													|  289
+													i &nbsp;	
+								.col-md-2
+									a(href='/')
+										img(src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif" alt="Title" class="img-responsive")
+									.ss-item-text
+										h5.item-title 簡單個人網頁製作
+											h5.item-details
+												i.item-price
+													| Free
+												i.student-count.fa.fa-user-o
+													|  67
+												i.favorite-count.fa.fa-heart-o
+													|  125
+													i &nbsp;	
+								.col-md-2
+									a(href='/')
+										img(src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif" alt="Title" class="img-responsive")
+									.ss-item-text
+										h5.item-title 認識城門水塘動植物一日遊
+											h5.item-details
+												i.item-price
+													| Free
+												i.student-count.fa.fa-user-o
+													|  30
+												i.favorite-count.fa.fa-heart-o
+													|  48
+													i &nbsp;	
+								.col-md-2
+									a(href='/')
+										img(src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif" alt="Title" class="img-responsive")
+									.ss-item-text
+										h5.item-title 挑戰獅子山團
+											h5.item-details
+												i.item-price
+													| Free
+												i.student-count.fa.fa-user-o
+													|  34
+												i.favorite-count.fa.fa-heart-o
+													|  50
+													i &nbsp;	
+								.col-md-2
+									a(href='/')
+										img(src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif" alt="Title" class="img-responsive")
+									.ss-item-text
+										h5.item-title 師奶教你煮好味豉椒排骨
+											h5.item-details
+												i.item-price
+													| Free
+												i.student-count.fa.fa-user-o
+													|  27
+												i.favorite-count.fa.fa-heart-o
+													|  56
+													i &nbsp;
+				li.list-group-item
+					.row.toggle#dropdown-detail-3(data-toggle='detail-3')
+						.col-xs-10 Applied Courses
+						.col-xs-2
+							i.fa.fa-chevron-down.pull-right
+					#detail-3
+						hr
+						.container
+							.fluid-row.ss-item
+								.col-md-2
+									a(href='/')
+										img(src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif" alt="Title" class="img-responsive")
+									.ss-item-text
+										h5.item-title 教授如何繪畫荷花山水畫
+											h5.item-details
+												i.item-price
+													| Free
+												i.student-count.fa.fa-user-o
+													|  18
+												i.favorite-count.fa.fa-heart-o
+													|  32
+													i &nbsp;
+								.col-md-2
+									a(href='/')
+										img(src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif" alt="Title" class="img-responsive")
+									.ss-item-text
+										h5.item-title 韓國手卷製作
+											h5.item-details 
+												i.item-price
+													| Free
+												i.student-count.fa.fa-user-o
+													|  17
+												i.favorite-count.fa.fa-heart-o
+													|  32
+													i &nbsp;	
+								.col-md-2
+									a(href='/')
+										img(src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif" alt="Title" class="img-responsive")
+									.ss-item-text
+										h5.item-title 挑戰獅子山團
+											h5.item-details
+												i.item-price
+													| Free
+												i.student-count.fa.fa-user-o
+													|  34
+												i.favorite-count.fa.fa-heart-o
+													|  52
+													i &nbsp;	
+								.col-md-2
+									a(href='/')
+										img(src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif" alt="Title" class="img-responsive")
+									.ss-item-text
+										h5.item-title 1小時學識整情侶立體心意咭
+											h5.item-details
+												i.item-price
+													| Free
+												i.student-count.fa.fa-user-o
+													|  19
+												i.favorite-count.fa.fa-heart-o
+													|  57
+													i &nbsp;	
+								.col-md-2
+									a(href='/')
+										img(src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif" alt="Title" class="img-responsive")
+									.ss-item-text
+										h5.item-title 親身教你最新韓國眼妝
+											h5.item-details
+												i.item-price
+													| Free
+												i.student-count.fa.fa-user-o
+													|  21
+												i.favorite-count.fa.fa-heart-o
+													|  28
+													i &nbsp;	
+								.col-md-2
+									a(href='/')
+										img(src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif" alt="Title" class="img-responsive")
+									.ss-item-text
+										h5.item-title 巴士一日遊加冷知識分享
+											h5.item-details
+												i.item-price
+													| Free
+												i.student-count.fa.fa-user-o
+													|  15
+												i.favorite-count.fa.fa-heart-o
+													|  23
+													i &nbsp;																									
+				li.list-group-item
+					.row.toggle#dropdown-detail-4(data-toggle='detail-4')
+						.col-xs-10 Favorite
+						.col-xs-2
+							i.fa.fa-chevron-down.pull-right
+					#detail-4
+						hr
+						.container
+							.fluid-row.ss-item
+								.col-md-2
+									a(href='/')
+										img(src="/img/empty_img.gif" alt="Title" class="img-responsive")
+									.ss-item-text
+										h5.item-title 楷書書法分享
+											h5.item-details
+												i.item-price
+													| Free
+												i.student-count.fa.fa-user-o
+													|  12
+												i.favorite-count.fa.fa-heart-o
+													|  15
+													i &nbsp;
+								.col-md-2
+									a(href='/')
+										img(src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif" alt="Title" class="img-responsive")
+									.ss-item-text
+										h5.item-title 鳯凰山導賞團
+											h5.item-details
+												i.item-price
+													| Free
+												i.student-count.fa.fa-user-o
+													|  20
+												i.favorite-count.fa.fa-heart-o
+													|  35
+													i &nbsp;	
+								.col-md-2
+									a(href='/')
+										img(src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif" alt="Title" class="img-responsive")
+									.ss-item-text
+										h5.item-title 師奶教你煮好味豉椒排骨
+											h5.item-details
+												i.item-price
+													| Free
+												i.student-count.fa.fa-user-o
+													|  27
+												i.favorite-count.fa.fa-heart-o
+													|  56
+													i &nbsp;	
+								.col-md-2
+									a(href='/')
+										img(src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif" alt="Title" class="img-responsive")
+									.ss-item-text
+										h5.item-title 皮革知識分享及製作
+											h5.item-details
+												i.item-price
+													| Free
+												i.student-count.fa.fa-user-o
+													|  19
+												i.favorite-count.fa.fa-heart-o
+													|  48
+													i &nbsp;	
+								.col-md-2
+									a(href='/')
+										img(src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif" alt="Title" class="img-responsive")
+									.ss-item-text
+										h5.item-title Canon攝影技巧分享
+											h5.item-details
+												i.item-price
+													| Free
+												i.student-count.fa.fa-user-o
+													|  16
+												i.favorite-count.fa.fa-heart-o
+													|  25
+													i &nbsp;	
+								.col-md-2
+									a(href='/')
+										img(src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif" alt="Title" class="img-responsive")
+									.ss-item-text
+										h5.item-title 後日獵戶座流星雨觀星技巧
+											h5.item-details
+												i.item-price
+													| Free
+												i.student-count.fa.fa-user-o
+													|  20
+												i.favorite-count.fa.fa-heart-o
+													|  34
+													i &nbsp;
+
+	script.
+		var tutorDetails = !{JSON.stringify(tutor)};
+		var user = !{JSON.stringify(user)};
+		console.log(tutorDetails.rating);
+		var isFollowed = tutorDetails.isFollowed;
+		$(document).ready(()=>{
+			if(isFollowed==0) {
+				$('#subscribe').attr('class', 'btn btn-primary');
+				$('#subscribe').html('Follow');
+			}else{
+				$('#subscribe').attr('class', 'btn');
+				$('#subscribe').html('Followed');
+			}
+			subscribe(tutorDetails,user);
+			loadChart(tutorDetails.rating);
+			checkStreaming(tutorDetails.isStreaming);
+		});

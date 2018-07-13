@@ -1,0 +1,120 @@
+extend layout
+block content
+	include ./includes/home
+	script(src='../js/course_add.js')
+	script(src='../js/livestream.js')
+	script(src='../js/filter.js')
+	//- script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js")
+	.container.user-setting
+		.row.profile-setting
+			.col-md-6
+				.panel.panel-default
+					.panel-heading
+						h3.panel-title Cover Photo
+					ul.list-group
+						.list-group-item.course-image
+							.container.col-md-12
+								canvas.course-image#course-image(style='max-width:500px; display: none')
+								#edit-image(style='text-align: center;')
+								br
+								input.inputfile.inputfile-4#inputfile(type='file' name='uploads[]' multiple='multiple' style="display: none;")
+								label(for='inputfile' style='padding-top: 10px; display: block; margin-left: auto; margin-right: auto; width: 140px')
+									figure
+										svg(xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17")
+											path(d='M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z')
+									span Choose a photo
+
+			.public-profile.col-md-6
+				.panel.panel-default
+					.panel-heading
+						h3.panel-title Live Stream
+					ul.list-group
+						.livestream-button.streambutton#livestream-button2(style="margin: 10px auto 10px auto ")
+							.fa.fa-youtube-play &nbsp;Livestream
+			.public-profile.col-md-6
+				.panel.panel-default
+					.panel-heading
+						h3.panel-title New Course
+					ul.list-group
+						.list-group-item.setting-item
+							.container.col-md-12
+								.fluid-row.ss-item
+									.form-group
+										input.form-control#userId(name='userId', type='hidden')
+									.form-group
+										label.control-label(for='title') Course Title
+										input.form-control#title(name='title', type='text', placeholder='Course Title')
+									.form-group
+										label.control-label(for='youtubelink') Youtube Link
+										input.form-control#youtubelink(name='youtubelink', type='text', placeholder='Youtube Link')
+									.form-group
+										label.control-label(for='price') Price
+										input.form-control#price(name='price', type='nubmer', placeholder='Price')
+									.form-group
+										label.control-label(for='location') Location
+										input.form-control#location(name='location', type='text', placeholder='Location')
+									.form-group
+										label.control-label(for='category') Category
+										select.form-control#category(name='category', type='text', placeholder='Category')
+											option(value='Other') Select a category
+											option(value=1) Act					
+											option(value=2) Astronomy
+											option(value=3) Board game			
+											option(value=4) Calligraphy
+											option(value=5) Computing			
+											option(value=12) Cosmetology											
+											option(value=6) Cooking
+											option(value=7) Craft
+											option(value=8) Design
+											option(value=9) Drawing
+											option(value=10) Dressing
+											option(value=11) Hiking
+											option(value=13) Mobile Game
+											option(value=14) Photography
+											option(value=16) Playing
+											option(value=17) Reading
+											option(value=18) Shopping
+											option(value=19) Weather
+											option(value=20) Other
+											option(value=21) Theme
+									.form-group
+										label.control-label(for='description') Course Description
+										textarea.form-control#description(name='description', placeholder='Course Description')
+									p.text-center
+										input.btn.btn-primary#course-submit(name='submit' type='submit' value='Add')
+									p.text-center#addCourseMsg(style="visibility: hidden")
+										i(style="color: red;") Successful!
+
+		.modal.fade#editor(role='dialog')
+			.modal-dialog(style="width:80%")
+				.modal-content
+					.modal-header
+						button(class="close" data-dismiss="modal") &times;
+						h4(class="modal-title") Image Editor
+					.modal-body
+						canvas#editing-img(style='max-width:500px; height=auto; float: left; margin: 0px 20px 0px 0px ')
+						//- .slidecontainer
+						//- 	input(type="range" min="1" max="100" value="50" class="slider" id="myRange")
+						#modal-body
+						//- img.course-image#editing-image(style='max-width:490px;')
+					.modal-footer
+						a#save-img(href="/login" type="button" class="btn btn-primary" data-dismiss="modal") Save
+						a#loadOriginal(type="button" class="btn btn-warning") Reset
+						a#cancel(type="button" class="btn btn-default" data-dismiss="modal") Discard
+
+	script.
+		var canvas = document.getElementById("course-image");
+		var canvas2 = document.getElementById("editing-img"); //copy canvas to modal
+
+		$(document).ready(()=>{
+			var user = !{JSON.stringify(user)};
+			var category = !{JSON.stringify(course_category)};
+			if(category == "theme") {
+				$("#category").val(21);
+			}
+			console.log("Category = ", category);
+			showImage();
+			AddNewCourse(user);
+			livestream(user);
+			createEditor();
+		});

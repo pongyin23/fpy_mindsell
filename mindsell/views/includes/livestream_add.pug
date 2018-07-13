@@ -1,0 +1,54 @@
+script(src='../js/livestream.js')
+link(href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet")
+script(src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js")
+.modal.fade#livestreamLink(role='dialog')
+	.modal-dialog
+		.modal-content
+			.modal-header
+				button(class="close" data-dismiss="modal") &times;
+				h4(class="modal-title") Livestream
+			.modal-body
+				.fluid-row.ss-item
+					.form-group
+						input.form-control#userId(name='userId', type='hidden')
+					.form-group
+						label.control-label(for='title') Livestream Title
+						input.form-control#stream-title(name='title', type='text', placeholder='Livestream Title')
+					.form-group
+						label.control-label(for='description') Description
+						input.form-control#stream-description(name='description', type='text', placeholder='Description of livestream')
+					.form-group
+						label.control-label(for='link' style="float:left") Livestream Link &nbsp;
+						#streamer(style="float:right; position: relative; bottom: 5px;")
+							input#stream(type="checkbox" checked data-toggle="toggle" data-on="Youtube" data-off="Twitch" data-width="90" data-onstyle="danger" data-offstyle="info")
+						input.form-control#stream-link(type="text" name="stream-link" size= "60" placeholder="Paste the embed Youtube Livestream Link: e.g. https://youtu.be/abcd-1234")
+			.modal-footer
+				button#update-path(name="update-path" class="btn btn-default") Confirm
+
+.modal.fade#livestreamWarning(role='dialog')
+	.modal-dialog
+		.modal-content
+			.modal-header
+				button(class="close" data-dismiss="modal") &times;
+				h4(class="modal-title") Livestream Error
+			.modal-body
+				p You have already created a live stream. Make sure that you have to close it before creating a new stream!
+			.modal-footer
+				a.btn.btn-primary#warningStreamUrl Go to Stream
+				a.btn.btn-default(data-dismiss="modal") Cancel
+
+script.
+	$(document).ready(()=>{
+		var user = !{JSON.stringify(user)}
+		livestream(user);
+		$('#streamer').on("click",function(){
+			if($("#stream").prop('checked')==false){
+				$("#stream-link").attr("placeholder","Paste the embed Youtube Livestream Link: e.g. https://youtu.be/abcd-1234");
+			}else{
+				$("#stream-link").attr("placeholder","Paste the embed Twitch Channel: e.g monstercat");
+			}
+		})
+	});
+
+
+

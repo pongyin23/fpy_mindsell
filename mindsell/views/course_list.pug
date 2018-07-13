@@ -1,0 +1,125 @@
+extend layout
+block content
+  include ./includes/home
+  script(src='../js/course_list.js')
+  .container
+    .row.course
+      .course_list.col-md-9
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title Course
+          ul.list-group
+            .list-group-item.course-list
+              .container.col-md-12
+                .fluid-row.ss-item#courses
+      .course_filter.col-md-3
+        .well
+          h3(align='center') Search Filter
+          form.form-horizontal(action='/course/course_list', method='get', role='form', autocomplete='off')
+            .form-group
+              label.control-label(for='keyword') Keywords:
+              input.form-control#keyword(name='keyword' placeholder='Enter Your Keywords Here')
+            .form-group
+              label.control-label(for='category') Category
+              select.form-control#category(name='category')
+                option(value="default" disabled selected) Select a category
+                option(value='theme' style="color: white; background:#a04178") Theme
+                option(value='all') All                
+                option(value='act') Act
+                option(value='astronomy') Astronomy
+                option(value='board game') Board Game
+                option(value='cooking') Cooking
+                option(value='cosmetology') Cosmetology
+                option(value='craft') Craft
+                option(value='design') Design
+                option(value='dressing') Dressing
+                option(value='drawing') Drawing
+                option(value='calligraphy') Calligraphy
+                option(value='hiking') Hiking
+                option(value='mobile game') Mobile Game
+                option(value='photography') Photography
+                option(value='photoshop') Photoshop
+                option(value='playing') Playing
+                option(value='computing') Computing
+                option(value='shopping') Shopping
+                option(value='reading') Reading
+                option(value='weather') Weather
+                option(value='other') Other
+            .form-group
+              label.control-label(for='min-price') Min Price
+              .input-group
+                .input-group-addon#min-dollar-addon $
+                input.form-control#min-price(name='minprice', type='number', min='0', placeholder='0', aria-describedby='min-dollar-addon')
+            .form-group
+              label.control-label(for='max-price') Max Price
+              .input-group
+                .input-group-addon#max-dollar-addon $
+                input.form-control#max-price(name='maxprice', type='number', min='0', placeholder='0', aria-describedby='max-dollar-addon')
+            p.text-center
+              button.btn.btn-primary.glyphicon.glyphicon-search#search-btn(type='submit')                                                   
+  script.
+    $(document).ready(()=>{
+      var filteredCourses = !{JSON.stringify(data)};
+      showFilteredCourses(filteredCourses);
+    });
+
+    //- function showFilteredCourses(filteredCourses) {
+    //-   //- var filteredCourses = !{JSON.stringify(data)};
+
+    //-   var list = document.getElementById('courses');
+    //-   list.innerHTML = '';
+
+    //-   for(var i = 0; i < filteredCourses.length; i++) {
+    //-     // Create html code for showing course details
+    //-     var course = document.createElement('div');
+    //-     course.setAttribute('class', 'col-md-3');
+    //-     course.setAttribute('title', filteredCourses[i].title);
+    //-     var courseLink = document.createElement('a');
+    //-     courseLink.setAttribute('href', '/course/details?courseId=' + filteredCourses[i].courseId);
+    //-     var courseImg = document.createElement('img');
+    //-     // TODO: select the image by courseId fomr database
+    //-     if(filteredCourses[i].image) {
+    //-       courseImg.setAttribute('src', '../img/course/' + filteredCourses[i].image);
+    //-     } else {
+    //-       courseImg.setAttribute('src', '../img/empty_img.gif');
+    //-     }
+    //-     console.log(filteredCourses[i].image);
+    //-     courseImg.setAttribute('class', 'img-responsive');
+    //-     var content = document.createElement('div');
+    //-     content.setAttribute('class', 'ss-item-text');
+    //-     var title = document.createElement('h5');
+    //-     title.setAttribute('class', 'item-title');
+    //-     $(title).html(filteredCourses[i].title);
+    //-     var details = document.createElement('h5');
+    //-     details.setAttribute('class', 'item-details');
+    //-     var price = document.createElement('i');
+    //-     price.setAttribute('class', 'item-price');
+    //-     if(filteredCourses[i].price) {
+    //-       $(price).html('$' + filteredCourses[i].price);
+    //-     }
+    //-     else {
+    //-       $(price).html('Free');
+    //-     }
+    //-     // TODO: select student number of course
+        
+    //-     console.log("course: ",filteredCourses[i].studentNumber);
+    //-     var studentNum = document.createElement('i');
+    //-     studentNum.setAttribute('class', 'student-count fa fa-user-o');
+    //-     $(studentNum).html('&nbsp;' + filteredCourses[i].studentNumber);
+    //-     console.log(filteredCourses[i].studentNumber);
+    //-     var favoriteNum = document.createElement('i');
+    //-     favoriteNum.setAttribute('class', 'favorite-count fa fa-heart-o');
+    //-     $(favoriteNum).html('&nbsp;' + filteredCourses[i].popularity + '&nbsp;');
+    //-     details.appendChild(price);
+    //-     details.appendChild(studentNum);
+    //-     details.appendChild(favoriteNum);
+    //-     //- title.appendChild(details);
+    //-     content.appendChild(title);
+    //-     content.appendChild(details);
+    //-     courseLink.appendChild(courseImg);
+    //-     course.appendChild(courseLink);
+    //-     course.appendChild(content);
+
+    //-     list.appendChild(course);
+    //-   }      
+    //- }

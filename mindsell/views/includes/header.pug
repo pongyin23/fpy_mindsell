@@ -1,0 +1,113 @@
+-var isOpen = (message.length > 0 ? 'open' : '')
+-var isHideProfile = (user ? 'display: show' : 'display: none')
+-var isHideLogin = (user ? 'display: none' : 'display: show')
+-var username = (user ? user.username : '')
+
+.container
+	nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
+		.container-fluid.navbar-border
+			// Brand and toggle get grouped for better mobile display 
+			.navbar-header
+				button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+					span.sr-only Toggle navigation
+					span.icon-bar
+					span.icon-bar
+					span.icon-bar
+				a.navbar-brand(href='/home')
+					i.fa.fa-home
+					|   MindSell
+			.collapse.navbar-collapse#bs-example-navbar-collapse-1
+				ul.nav.navbar-nav.navbar-right(style=isHideLogin)
+					li.dropdown(class = isOpen)
+						a.dropdown-toggle(href='#', data-toggle='dropdown')
+							i.fa.fa-user-circle
+							b.color-blue  Login
+							span.caret
+						ul.dropdown-menu.login-panel
+							li
+								div(style='padding: 8px')
+									form#loginform.form-horizontal(role='form', autocomplete='off' , action='/login', method='post')
+										.input-group(style='margin-bottom: 10px')
+											span.input-group-addon
+												i.glyphicon.glyphicon-user.color-blue
+											// USERNAME 
+											|  
+											input#login-username.form-control(type='text', name='username', placeholder='username', pattern='[a-zA-Z0-9]{5,}', title='Minimum 5 letters or numbers.')
+										.input-group(style='margin-bottom: 10px')
+											span.input-group-addon
+												i.glyphicon.glyphicon-lock.color-blue
+											//  PASSWORD  
+											|  
+											input#login-password.form-control(type='password', name='password', placeholder='password', pattern='.{8,}', title='Minmimum 8 letters or numbers.')
+										span.forgot-password.color-blue(style='margin-bottom:10px')
+											a(href='') Forgot password?
+										-if(message.length > 0) {
+											.form-group(style='margin-top:10px')
+												.col-sm-12.controls.center-text
+													span#error-message.color-red
+														i
+														|  #{message}
+										-}
+										.form-group(style='margin-top:10px')
+											// Button 
+											.col-sm-12.controls.center-text
+												input#btn-login.btn.btn-block.btn-success(name='submit', type='submit' value='Login')
+										.col-sm-12.controls
+											span.color.blue
+												i
+													|  Don't have a account? 
+													a(href='/registration') Sign up here
+				ul.nav.navbar-nav.navbar-right(style=isHideProfile)
+					li
+						a(href='#')
+							i.fa.fa-bell
+							|   Notification
+					li.dropdown
+						a.dropdown-toggle(href='#', data-toggle='dropdown')
+							i.fa.fa-user-circle
+							|   #{username}
+							span.caret
+						ul.dropdown-menu(role='menu')
+							li
+								a(href='#')
+									i.fa.fa-user-circle
+									|   Profile
+							li
+								a(href='#')
+									i.fa.fa-bookmark
+									|   Course
+							li
+								a(href='#')
+									i.fa.fa-thumbs-up
+									|   Following
+							li
+								a(href='#')
+									i.fa.fa-heart
+									|   Favorite
+							li.divider
+							li
+								a(href='logout')
+									|   Logout
+				ul.nav.navbar-nav.navbar-right
+					li.dropdown
+						a.dropdown-toggle(href='#', data-toggle='dropdown')
+							i.fa.fa-tasks
+							|  Categories
+							span.caret
+						ul.dropdown-menu(role='menu')
+							li
+								a(href='#')
+									i
+									|   Act
+							li
+								a(href='#')
+									i
+									|   Craft
+							li
+								a(href='#')
+									i
+									|   Sport
+							li
+								a(href='#')
+									i
+									|   Video Game

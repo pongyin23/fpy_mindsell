@@ -1,0 +1,127 @@
+extend layout
+block content
+	include ./includes/home
+	script(src="https://embed.twitch.tv/embed/v1.js")
+	.container.notification-container
+		.panel.panel-default
+			.panel-heading
+				h3.panel-title#stream-header Livestream
+					a#close-livestream(class="close" style="padding: 0px;")
+			.panel-body(style='height:650px; text-align = left')
+				#stream-content
+				//- h3 #{stream.title}
+				//- h5 by #{stream.nickname}
+				//- p #{stream.description}
+				iframe#livestream-frame(style='width:90%; height:75%;' frameborder='0' allowfullscreen class='video')
+				#twitch-embed
+		//- .panel.panel-default
+		include ./includes/cross_platform
+	.modal.fade#closePanel(role='dialog')
+		.modal-dialog
+			.modal-content
+				.modal-header
+					button(class="close" data-dismiss="modal") &times;
+					h4(class="modal-title") Notice!
+				.modal-body
+					h4(style="text-align: center") Are you sure you want to shut down the livestream?
+				.modal-footer
+					a#close(data-dismiss="modal" type="button" class="btn btn-danger") Yes
+					a(data-dismiss="modal" type="button" class="btn btn-primary") No
+					
+
+	script.
+		//- new Twitch.Embed("twitch-embed", {
+		//- 	width: 960,
+		//- 	height: 540,
+		//- 	channel: "monstercat",
+		//-     //- layout: "video",
+		//-     //- autoplay: false
+		//- });
+		$(document).ready(()=>{
+			var user = !{JSON.stringify(user)};
+			var stream = !{JSON.stringify(stream)};
+
+			var streamUrl;
+			var host;
+			//- var livestreamPath = location.search.split('livestream_path=')[1];
+
+			try{
+				console.log(user.userId,stream.userId)
+				if (user.userId == stream.userId){
+					document.getElementById("close-livestream").innerHTML="Close";
+					$("#close-livestream").attr('data-toggle',"modal");
+					$("#close-livestream").attr('data-target',"#closePanel");
+				}else{
+					$("#close-livestream").attr('href',"/");
+					document.getElementById("close-livestream").innerHTML="Exit";
+				}
+			}catch(err){
+				$("#close-livestream").attr('href',"/");
+				document.getElementById("close-livestream").innerHTML="Exit";
+
+			}
+
+			var content = document.getElementById('stream-content');
+			if (stream == null){
+				//- console.log("no such stream");
+				content.innerHTML = "<h3> The live stream doesn't exist anymore.</h3>";
+			}else{
+				if (stream.livestreamPath.search("youtube/")>=0){
+					var domain = stream.livestreamPath.split('youtube/')[1];
+					streamUrl = "https://www.youtube.com/embed/" + domain;
+					host = "youtube";
+				}else{
+					streamUrl = stream.livestreamPath.split('twitch/')[1];
+					host = "twitch";
+				}
+				console.log(host,streamUrl)
+				if (host == "youtube"){
+					console.log("run youtube");
+					content.innerHTML = "<h2><b>"+stream.title+"</b></h2><h6> by "+stream.nickname+"</h6><p>"+stream.description+"</p>";
+					$('#livestream-frame').attr('src', streamUrl + "?autoplay=1");
+					$('#twitch-embed').attr('style',"display:none");
+				}else{
+					console.log("run twitch");
+					new Twitch.Embed("twitch-embed", {
+						width: 960,
+						height: 540,
+						channel: streamUrl
+						//- layout: "video",
+						//- autoplay: false
+					});
+					$('#livestream-frame').attr('style',"display:none");
+
+				}
+				
+			}
+
+			$('#close').on('click', function() {
+				//- window.location.replace("http://localhost:3000/profile");
+				close(stream);
+			});
+		});
+
+		function close(stream){
+			var streamId = stream.livestreamId;
+			var details = {
+				livestreamId: streamId,
+				isEnded: 1,
+			}
+
+			$.ajax({
+				url: '/livestream/update_livestream',
+				type: 'GET',
+				data: details,
+
+				success: function(result) {
+					// Redirect to the profile page
+					window.location.replace("http://localhost:3000/profile");
+				},
+				error: ( jqXHR, textStatus, errorThrown ) => { 
+					console.error(textStatus, errorThrown);
+				}
+			});
+		}
+
+
+			

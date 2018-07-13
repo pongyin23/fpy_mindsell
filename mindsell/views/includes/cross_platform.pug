@@ -1,0 +1,12 @@
+script(src='../js/cross_platform.js')
+script(type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js")
+
+.row
+	<div id="fbShare" class="fb-share-button" data-layout="button" data-size="large" data-mobile-iframe="false"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fcourse%2Fdetails%3FcourseId%3D18&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">分享</a></div>
+	<div style="margin-top: 5px"><a id="twitterShare" class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Hello%20world" data-size="small">Tweet</a><div>
+	<a data-pin-do="buttonBookmark" href="https://www.pinterest.com/pin/create/button/"></a>
+
+script.
+	$(document).ready(()=>{
+		cross_platform();
+	});

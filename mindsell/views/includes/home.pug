@@ -1,0 +1,245 @@
+include livestream_add
+#wrapper
+	header.header.navbar-fixed-top
+		nav.navbar.menubar.navbar-fixed-top(role='navigation')
+			.container-fluid.navbar-border
+				.navbar-header
+					button.navbar-toggle(type='button', data-target='#navbarCollapse', data-toggle='collapse')
+						span.sr-only Toggle navigation
+						span.icon-bar
+						span.icon-bar
+						span.icon-bar
+					a.navbar-brand.logo(href='/')
+						h4.fa.fa-home  MindSell
+				.collapse.navbar-collapse
+					ul.nav.navbar-nav.navbar-right.rightmenu
+						li.dropdown#createCourse
+							a.dropdown-toggle(title = 'Create Course', data-toggle='dropdown')
+								span.fa-2x
+									i.fa.fa-plus-circle
+							ul.dropdown-menu(role='menu')
+								li
+									a(href='/course/addCourse')
+										i.fa.fa-book
+										|   Create Course
+								li#livestream-button.streambutton
+									a(href='#')
+										i.fa.fa-youtube-play
+										|   Create Live Stream
+						li#message
+							a(href='/notification')
+								span
+									i.fa.fa-bell
+								span.message-count#message_count
+
+						li.dropdown#profile
+							a.dropdown-toggle(type='button', data-toggle='dropdown')
+								span
+									i.fa.fa-user
+							ul.dropdown-menu(role='menu')
+								li
+									a.disable(href='')
+										input#user-id(type='hidden')
+										i.fa.fa-user-o#nickname
+								li
+									a(href='/profile')#profile-row
+										i.fa.fa-book
+										|   Profile
+								li
+									a(href='/theme/createTheme')#theme
+										i.fa.fa-star-o
+										|   Theme
+								li
+									a(href='/user/setting')
+										i.fa.fa-cog
+										|   Setting
+								li.divider
+								li
+									a(href='/logout') 
+										i.fa.fa-sign-out
+										|  Logout
+						li.dropdown#login-status
+							a.dropdown-toggle(href='#', type='button', data-toggle='dropdown')
+								span
+									i.fa.fa-user
+							ul.dropdown-menu
+								li
+									a(href='/login') Login
+								li
+									a(href='/registration') Sign up
+						li
+							a(href='#', onclick='openNav2()')
+								span
+									i.fa.fa-search
+					#navbarCollapse.collapse.navbar-collapse
+						ul.nav.navbar-nav.navbar-right
+							li.dropdown.mega-dropdown
+								a.dropdown-toggle(href='#', data-toggle='dropdown') Categories 
+									i.fa.fa-sort-desc
+								ul.dropdown-menu.mega-dropdown-menu.category-list
+									li.col-sm-2.col-xs-6
+										ul
+											li(style="background:#90c9e5")
+												a(href='/course/course_list?category=theme' style="color:white;") Theme
+											li
+												a(href='/course/course_list?category=act') Act
+											li
+												a(href='/course/course_list?category=astronomy') Astronomy
+											li
+												a(href='/course/course_list?category=boardgame') Board Game
+
+									li.col-sm-2.col-xs-6
+										ul
+											li
+												a(href='/course/course_list?category=cooking') Cooking											
+											li
+												a(href='/course/course_list?category=craft') Craft
+											li
+												a(href='/course/course_list?category=design') Design
+											li
+												a(href='/course/course_list?category=dressing') Dressing
+									li.col-sm-2.col-xs-6
+										ul
+											li
+												a(href='/course/course_list?category=drawing') Drawing											
+											li
+												a(href='/course/course_list?category=calligraphy') Calligraphy
+											li
+												a(href='/course/course_list?category=hiking') Hiking
+											li
+												a(href='/course/course_list?category=mobilegame') Mobile Game
+									li.col-sm-2.col-xs-6
+										ul
+											li
+												a(href='/course/course_list?category=photography') Photography											
+											li
+												a(href='/course/course_list?category=photoshop') Playing
+											li
+												a(href='/course/course_list?category=playing') Computing
+											li
+												a(href='/course/course_list?category=computing') Shopping                     
+									li.col-sm-2.col-xs-6
+										ul
+											li
+												a(href='/course/course_list?category=shopping') Reading  
+											li
+												a(href='/course/course_list?category=weather') Weather
+											li
+												a(href='/course/course_list?category=cosmetology') Cosmetology
+											li
+												a(href='/course/course_list?category=other') Other
+			// end of container 
+		#rightside.sidenav2
+			.sidemenu
+				.hdwel.light
+					| Course Searching
+					a.closebtn(href='javascript:void(0)', onclick='closeNav2()') ×
+				// end of hdwel 
+				.input-group.inputserch
+					form(action='/course/course_list',method='GET', autocomplete='off')
+						input.form-control(name='keyword', type='text', placeholder='Search')
+						span.input-group-addon
+							button.btn.btn-default(type='submit')
+								span.glyphicon.glyphicon-search
+				br
+				small Find a course
+				.clear
+				br
+				//- h4 Featured course
+	//- .modal.fade#myModal(role='dialog')
+	//- 	.modal-dialog(style="width:70%")
+	//- 		.modal-content(style="background: #f4adbc;")
+	//- 			.modal-header
+	//- 				button(class="close" data-dismiss="modal") &times;
+	//- 				h3(class="modal-title" style="text-align: center;")#theme-title
+	//- 			.modal-body
+	//- 				.row
+	//- 					.col-md-6
+	//- 						img.img-responsive(alt='theme image' style="height:70%; width:70%; margin-right:0px; margin-left:20px;")#theme-image-one
+	//- 					.col-md-6(style="margin-right20px;")
+	//- 						p#theme-intro(style="margin-top:10px; font-size:18px;")
+	//- 			.modal-footer
+	//- 				a(href="http://localhost:3000/theme" type="button" class="btn btn-info" data-dismiss="modal")#theme-redirect More details			
+			
+script.
+	function getUserInfo() {
+		var user = !{JSON.stringify(user)}
+		$.ajax({
+			url: '/user/user_profile',
+			type: 'GET',
+			data: user,
+
+			success: function(result) {
+				if(result) {
+					if(result.nickname == 'admin1') {
+						console.log('I am admin');
+						$('#login-status').css('display', 'none');    
+						$('#message').css('display', 'none');
+						$('#theme').css('display', 'show');
+						$('#profile').css('display', 'show');
+						$('#profile-row').css('display', 'none');
+						$('#createCourse').css('display', 'none');
+						$('#nickname').text(' Hello, ' + result.nickname);
+						$('#user-id').attr('value', result.userId);
+						if (result.messageNumber != 0 ){
+							$('#message_count').text(result.messageNumber);
+							$('#message_count').css('display', 'none');
+						} else{
+							$('#message_count').css('display', 'none');
+						}
+					} else {
+						$('#login-status').css('display', 'none');    
+						$('#message').css('display', 'show');
+						$('#theme').css('display', 'none');
+						$('#profile').css('display', 'show');
+						$('#createCourse').css('display', 'show');
+						$('#nickname').text(' Hello, ' + result.nickname);
+						$('#user-id').attr('value', result.userId);
+						if (result.messageNumber != 0 ){
+							$('#message_count').text(result.messageNumber);
+							$('#message_count').css('display', 'show');
+						} else{
+							$('#message_count').css('display', 'none');
+						}
+					}
+					
+				}	else {
+					$('#login-status').css('display', 'show');
+					$('#message').css('display', 'none');
+					$('#profile').css('display', 'none')	
+					$('#createCourse').css('display', 'none');			
+				}
+			},
+			error: ( jqXHR, textStatus, errorThrown ) => { 
+					console.error(textStatus, errorThrown);
+			}
+		});
+
+	}
+
+	$(document).ready(()=>{
+		getUserInfo();
+
+		//- $('#myModal').modal();
+
+		//- $('#theme-redirect').on('click', function() {
+		//- 	window.location.replace('http://localhost:3000/theme');
+		//- });
+
+		//- $.ajax({
+		//- 	url: '/theme/getTheme',
+		//- 	type: 'GET',
+
+		//- 	success: function(result) {
+		//- 		console.log("Theme = " + result.imagePath);
+		//- 		$('#theme-title').html(result.title);
+		//- 		$('#theme-intro').html(result.introduction);
+		//- 		$('#theme-hist').html(result.history);
+		//- 		$('#theme-content').html(result.content);
+		//- 		$('#theme-image-one').attr('src', '../img/theme/' + result.imagePath);
+		//- 	},
+		//- 	error: ( jqXHR, textStatus, errorThrown ) => { 
+		//- 		console.error(textStatus, errorThrown);
+		//- 	}
+		//- });
+	});

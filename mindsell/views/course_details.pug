@@ -1,0 +1,253 @@
+extend layout
+block content
+	include ./includes/home
+	script(src='../js/course_details.js')
+	<div id="fb-root"></div>
+	.container.course-details
+		.row
+			.col-md-6
+				.panel.panel-default
+					.panel-heading
+						h4.panel-title.course-title#course-title
+					ul.list-group
+						.list-group-item.course-image
+							.container.col-md-12
+								img#course-image
+			.col-md-6
+				.panel.panel-default
+					.panel-heading
+						h3.panel-title.details-title Details
+					ul.list-group
+						.list-group-item.course-content
+							.container.col-md-12
+								.row.course-field
+									.fa.fa-user-circle.fa-2x
+										-var validTutor = data.valid
+										if validTutor == 0
+											span#course-tutor(style='margin-left: 27px;')
+										else
+											//- a#course-tutor(style='margin-left: 27px;' href="/tutor_profile")
+											a#course-tutor(style='margin-left: 27px;' href="/tutor_profile?tutorId="+ data.userId)
+								.row.course-field
+									.fa.fa-calendar.fa-2x
+										span#course-date(style='margin-left: 29px;')
+								.row.course-field
+									.fa.fa-dollar.fa-2x
+										span#course-price(style='margin-left: 38px;')
+								.row.course-field
+									.fa.fa-phone.fa-2x
+										span#course-contact(style='margin-left: 38px;')
+								.row.course-field
+									.fa.fa-star.fa-2x           
+										span#course-rating(style='margin-left: 20px;')
+								.row.course-field
+									.fa.fa-heart.fa-2x
+										span#course-favorite(style='margin-left: 26px;')
+								.row.course-field
+									.fa.fa-map-marker.fa-2x
+										span#course-map(style='margin-left: 35px;') 
+								.row.course-field
+									.fa.fa-youtube.fa-2x    
+										a#course-youtubelink(style='margin-left: 20px; text-decoration: none; font-size: 18px;')
+								.row.enrollment
+									.col-md-6
+										.enroll-button#enroll-button Enroll
+									.col-md-6
+										.enroll-button.fa.fa-heart.fa-2x#fav-button
+									.col-md-6
+										.enroll-button.fa.fa-smile-o.fa-2x#rate-button
+		.row
+			.col-md-12
+				br
+				h2.item-title #{data.title}
+
+		.row
+			br
+			.col-md-6#course-description
+
+		include ./includes/cross_platform
+		//- .row
+		//- 	<div id="fbShare" class="fb-share-button" data-layout="button" data-size="large" data-mobile-iframe="false"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fcourse%2Fdetails%3FcourseId%3D18&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">分享</a></div>
+		//- 	<div style="margin-top: 5px"><a id="twitterShare" class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Hello%20world" data-size="small">Tweet</a><div>
+		//- 	<a data-pin-do="buttonBookmark" href="https://www.pinterest.com/pin/create/button/"></a>
+
+		.row.title
+			<br>
+			<br>
+			<br>
+			h4 Comment:
+			textarea.comment#commentContent(placeholder='Leave your comment here!' name='comments')
+			button.comment.btn.btn-primary#sendComments Send
+
+		.row#comments
+
+		.modal.fade#myModal(role='dialog')
+			.modal-dialog
+				.modal-content
+					.modal-header
+						button(class="close" data-dismiss="modal") &times;
+						h4(class="modal-title") Notice!
+					.modal-body
+						p Please login to unlock this feature!
+					.modal-footer
+						a(href="/login" type="button" class="btn btn-default") Login
+
+		.modal.fade#rate(role='dialog')
+			.modal-dialog
+				.modal-content
+					.modal-header
+						button(class="close" data-dismiss="modal") &times;
+						h4(class="modal-title") Rate the course now!
+					.modal-body#radarCSS
+						canvas#ratingRadar(width="400px" height="400px")
+					form#ratingSlider
+						.modal-body
+							.slidecontainer
+								label Professional:
+								input#rateProfessional(type="range" min="0" max="10" value="5" class="slider")
+							.slidecontainer
+								label Creative:
+								input#rateCreative(type="range" min="0" max="10" value="5" class="slider")
+							.slidecontainer
+								label Useful:
+								input#rateUseful(type="range" min="0" max="10" value="5" class="slider")
+							.slidecontainer
+								label Interesting:
+								input#rateInteresting(type="range" min="0" max="10" value="5" class="slider")
+							.slidecontainer
+								label Detailed:
+								input#rateDetailed(type="range" min="0" max="10" value="5" class="slider")
+							.slidecontainer
+								label Clear:
+								input#rateClear(type="range" min="0" max="10" value="5" class="slider")
+						.modal-footer
+							a#submitRating(type="button" class="btn btn-primary" data-dismiss="modal") OK
+							a(type="button" class="btn btn-default" data-dismiss="modal") Cancel
+
+	script.
+		// share button
+		var courseDetails = !{JSON.stringify(data)};
+		var record = courseDetails.liked;
+		var commentDetails = !{JSON.stringify(comment)};
+		var user = !{JSON.stringify(user)};
+		$(document).ready(()=>{
+			//- cross_platform();
+			$("#fbShare").attr("data-href",window.location.href);
+			//- $("#fbShare").attr("data-href","https://pugjs.org/language/inheritance.html");
+			//- $("#twitterShare").attr("data-url",window.location.href);
+			showCourseDetails(courseDetails);
+			updateCourseLiked(courseDetails);
+			enrollCourse(courseDetails,user);
+			sendComments(courseDetails,user);
+			showCommentDetails(commentDetails);
+			sendRating(courseDetails,user);
+			rating();
+			initRadar(courseDetails.selfRating);
+			if (courseDetails.logined==0){
+				$("#fav-button").attr('data-toggle',"modal");
+				$("#fav-button").attr('data-target',"#myModal");
+				$("#enroll-button").attr('data-toggle',"modal");
+				$("#enroll-button").attr('data-target',"#myModal");
+				$("#sendComments").attr('data-toggle',"modal");
+				$("#sendComments").attr('data-target',"#myModal");
+				$("#rate-button").attr('data-toggle',"modal");
+				$("#rate-button").attr('data-target',"#myModal");
+			} else{
+				$("#rate-button").attr('data-toggle',"modal");
+				$("#rate-button").attr('data-target',"#rate");
+			}
+			//- $('#fbShare').on("click",function() {
+			//-     FB.ui({
+			//-           method: 'feed',
+			//-           link: "http://localhost:3000/course/details?courseId=18",
+			//-           name: "The name who will be displayed on the post",
+			//-           description: "The description who will be displayed"
+			//-         }, function(response){
+			//-             console.log(response);
+			//-         }
+			//-     );
+			//- });
+		});
+
+		$( "#rateProfessional" ).mouseup(function() {
+			updateRadar(0,$("#rateProfessional").val());
+		});
+
+		$( "#rateCreative" ).mouseup(function() {
+			updateRadar(1,$("#rateCreative").val());
+		});
+
+		$( "#rateUseful" ).mouseup(function() {
+			updateRadar(2,$("#rateUseful").val());
+		});
+
+		$( "#rateInteresting" ).mouseup(function() {
+			updateRadar(3,$("#rateInteresting").val());
+		});
+
+		$( "#rateDetailed" ).mouseup(function() {
+			updateRadar(4,$("#rateDetailed").val());
+		});
+
+		$( "#rateClear" ).mouseup(function() {
+			updateRadar(5,$("#rateClear").val());
+		});
+
+		var ctx = document.getElementById("ratingRadar");
+		var myChart = new Chart(ctx, {
+				type: 'radar',
+				data: {
+						labels: ["Professional", "Creative", "Useful", "Interesting", "Detailed", "Clear"],
+						datasets: [{
+							label: 'Ratings ',
+							data: [courseDetails.selfRating[0], courseDetails.selfRating[1], courseDetails.selfRating[2], courseDetails.selfRating[3], courseDetails.selfRating[4], courseDetails.selfRating[5]],
+							backgroundColor: [
+									'rgba(255, 99, 132, 0.2)',
+									'rgba(54, 162, 235, 0.2)',
+									'rgba(255, 206, 86, 0.2)',
+									'rgba(75, 192, 192, 0.2)',
+									'rgba(153, 102, 255, 0.2)',
+									'rgba(255, 159, 64, 0.2)'
+							],
+							borderColor: [
+									'rgba(255,99,132,1)',
+									'rgba(54, 162, 235, 1)',
+									'rgba(255, 206, 86, 1)',
+									'rgba(75, 192, 192, 1)',
+									'rgba(153, 102, 255, 1)',
+									'rgba(255, 159, 64, 1)'
+							],
+							borderWidth: 1,
+						},{
+							label: 'Ratings ',
+							data: [2, 2, 2, 2, 2, 2],
+							backgroundColor: [
+									'rgba(0, 0, 0, 0)'
+							],
+							borderColor: [
+									'rgba(0, 0, 0, 0'
+							],
+							borderWidth: 0,
+						}]
+				},
+				options: {
+					elements: {
+						point:{
+							radius: 0
+						}
+					},
+					maintainAspectRatio: false,
+					scale: {
+						ticks: {
+							beginAtZero: true,
+							max: 10,
+							min: 0,
+							stepSize: 2
+
+						}
+					},
+				}
+		});
+
+
+		

@@ -1,0 +1,116 @@
+extend layout
+block content
+	include ./includes/home
+	script(src='../js/setting.js')
+	.container.user-setting
+		.row.profile-setting
+			.public-profile.col-md-6
+				.panel.panel-default
+					.panel-heading
+						h3.panel-title Profile
+					ul.list-group
+						.list-group-item.setting-item
+							.container.col-md-12
+								.fluid-row.ss-item
+									form.form-horizontal(action='/user/update_profile', method='post', role='form', autocomplete='off')
+										.form-group
+											input.form-control#username(name='username', type='hidden')
+										.form-group
+											label.control-label(for='nickname') Nickname
+											input.form-control#nickname(name='nickname', type='text', placeholder='Nickname')
+										.form-group
+											label.control-label(for='email') Email
+											input.form-control#email(name='email', type='email', placeholder='Email')
+										.form-group
+											label.control-label(for='contact') Contact
+											input.form-control#contact(name='contact', type='nubmer', placeholder='Contact')
+										.form-group
+											label.control-label(for='gender') Gender
+											select.form-control#gender(name='gender', type='text', placeholder='Gender')
+												option(value='default') Your Gender
+												option(value='male') Male
+												option(value='Female') Female
+												option(value='other') Other
+										.form-group
+											label.control-label(for='intro') Introduction
+											textarea.form-control.self-introduction#intro(name='introduction', placeholder='Introduction')
+										p.text-center
+											input.btn.btn-primary#profile-submit(name='submit' type='submit' value='Change')   
+			.profile-setting.col-md-6
+				.panel.panel-default
+					.panel-heading
+						h3.panel-title Change Password
+					ul.list-group
+						.list-group-item.setting-item
+							.container.col-md-12
+								.fluid-row.ss-item
+									form.form-horizontal#change-password-form(action='/change_password', method='post', role='form', autocomplete='off')
+										.form-group
+											input.form-control#username(name='username', type='hidden')
+										.form-group
+											label.control-label(for='currentPassword') Current Password
+											input.form-control#currentPassword.required(name='currentPassword', type='password', tabindex='2', placeholder='Current Password')
+											.text-danger Please fill out
+										.form-group
+											label.control-label(for='newPassowrd') New Password
+											input.form-control#newPassowrd.required(name='newPassowrd', type='password', tabindex='2', placeholder='New Password', pattern='.{8,}', title='Minmimum 8 letters or numbers.')
+											.text-danger Please fill out
+										.form-group
+											label.control-label(for='confirmPassword') Confirm New Password
+											input.form-control#confirmPassword.required(name='confirmPassword', type='password', tabindex='2', placeholder='Confirm New Password')
+											.text-danger Please fill out
+											.text-danger.confirm-password Confirm passworf is wrong											 
+										p.text-center
+											input.btn.btn-primary(name='change-password-submit' type='submit' value='Change')   
+	script.
+		$(document).ready(()=>{
+			var userDetails = !{JSON.stringify(user)};
+			var message = !{JSON.stringify(msg)};
+			
+			getUserProfile(userDetails == null? null : userDetails);
+			showMessage(message);
+		});
+		//- function getUserProfile(data) {
+		//- 	if(data) {
+		//- 			$('input[id=username]').val(data.username);			
+		//- 			$('input[id=nickname]').val(data.nickname);
+		//- 			$('input[id=email').val(data.email);
+		//- 			$('input[id=contact]').val(data.contact);
+		//- 			$('select[id=gender]').val(data.gender);
+		//- 			$('textarea[id=intro]').text(data.introduction);					
+		//- 	} else {
+		//- 		var userDetails = !{JSON.stringify(user)};
+
+		//- 		if(userDetails) {
+		//- 			$('input[id=username]').val(userDetails.username);					
+		//- 			$('input[id=nickname]').val(userDetails.nickname);
+		//- 			$('input[id=email').val(userDetails.email);
+		//- 			$('input[id=contact]').val(userDetails.contact);
+		//- 			$('select[id=gender]').val(userDetails.gender);
+		//- 			$('textarea[id=intro]').text(userDetails.introduction);				
+		//- 		}
+		//- 	}
+		//- }
+
+		//- function showMessage(message) {
+		//- 	//- var message = !{JSON.stringify(msg)};
+		//- 	console.log(message);
+		//- 	if(message) {
+		//- 		var messageDiv = document.createElement('div');
+		//- 		messageDiv.setAttribute('class', 'form-group');
+		//- 		var innerDiv = document.createElement('div');
+		//- 		innerDiv.setAttribute('class', 'col-sm-12');
+		//- 		innerDiv.setAttribute('style', 'text-align: center');
+		//- 		var span = document.createElement('span');
+		//- 		span.setAttribute('id', 'error-message');
+		//- 		span.setAttribute('style', 'color: red');
+		//- 		var text = document.createElement('i');
+		//- 		$(text).html(message);
+
+		//- 		span.appendChild(text);
+		//- 		innerDiv.appendChild(span);
+		//- 		messageDiv.appendChild(innerDiv);
+		//- 		var form = document.getElementById('change-password-form');
+		//- 		form.appendChild(messageDiv);
+		//- 	}
+		//- }

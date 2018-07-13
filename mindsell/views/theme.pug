@@ -1,0 +1,122 @@
+extend layout
+block content
+	include ./includes/home
+	//- link(rel='stylesheet', href='../css/template/animate.css')
+	//- link(rel='stylesheet', href='../css/template/icomoon.css')
+	//- link(rel='stylesheet', href='../css/template/bootstrap.css')
+	//- link(rel='stylesheet', href='../css/template/owl.carousel.min.css')
+	//- link(rel='stylesheet', href='../css/template/owl.theme.default.min.css')
+	//- link(rel='stylesheet', href='../css/template/magnific-popup.css')
+	link(rel='stylesheet', href='../css/template/style.css')
+	//- script(src='../js/template/modernizr-2.6.2.min.js')
+	style.
+		body {
+			background-color: #f4adbc;
+		}
+
+	#colorlib-page
+		#colorlib-about
+			.container
+				.row.text-center
+					h2.bold Introduction
+				.row
+					.col-md-5
+							.owl-carousel3
+							.item
+								img.img-responsive.about-img(alt='theme image')#theme-image-one
+					.col-md-6.col-md-push-1.animate-box
+							.about-desc
+							.owl-carousel3
+									.item
+										h2
+											span(style='font-weight: bold; font-size: 200%;')#theme-title
+							.desc
+									p#theme-intro(style="color: black;")
+									| 
+		#colorlib-services
+			.container
+				.row.text-center
+					h2.bold History
+				.row
+				.col-md-6
+					.services-flex
+					.one-third
+						.about-desc
+						.owl-carousel3
+							.item
+								h2
+									span(style='font-weight: bold; font-size: 200%;') 歷史
+						.desc
+							p#theme-hist(style="color: black;")
+							| 
+					.one-forth.services-img(style='background-image: url(../img/theme/sample3.jpg)')
+				.col-md-5
+					.owl-carousel3
+						.item
+							img.img-responsive.about-img(src="../img/theme/sample3.jpg" alt='theme image' style="display: block; margin-left: auto; margin-right: auto; height:100%; width:100%;margin-left: 30px; margin-top: 150px;")#theme-image-two
+		#colorlib-testimony
+			.container
+			.row.text-center
+				h2.bold Content
+			.row.animate-box
+			div
+				.item
+				.col-md-6.col-md-push-1.animate-box(style="margin-right: 70px;")
+					div
+						p#theme-content(style="color: black;")
+						|
+				.col-md-5
+					.owl-carousel3
+						.item
+							img.img-responsive.about-img(src="../img/theme/sample2.jpg" alt='theme image' style="display: block; margin-left: auto; margin-right: auto; height:70%; width:70%;margin-left: 30px; margin-bottom: 40px;")#theme-image-three
+		.container
+			.row
+				.col-sm-6.col-sm-offset-3
+					input#btn-create-course.btn.btn-block.btn-success(name='submit', type='submit' value='Create new course')
+			.row
+				.col-sm-6.col-sm-offset-3
+					input#btn-browser-course.btn.btn-block.btn-success(name='submit', type='submit' value='Find course')
+
+		include ./includes/cross_platform
+
+	script.
+		$(document).ready(()=>{
+			$('#btn-create-course').on('click', function() {
+			//TODO: need user id, so dont do this
+				window.location.replace('http://localhost:3000/course/addCourse?category=theme');
+			});
+			$('#btn-browser-course').on('click', function() {
+			//TODO: need user id, so dont do this
+				window.location.replace('http://localhost:3000/course/course_list?category=theme');
+			});
+
+			$.ajax({
+				url: '/theme/getTheme',
+				type: 'GET',
+
+				success: function(result) {
+					console.log("Theme = " + result.imagePath1);
+					$('#theme-title').html(result.title);
+					$('#theme-intro').html(result.introduction);
+					$('#theme-hist').html(result.history);
+					$('#theme-content').html(result.content);
+					$('#theme-image-one').attr('src', '../img/theme/' + result.imagePath1);
+					$('#theme-image-two').attr('src', '../img/theme/' + result.imagePath2);
+					$('#theme-image-three').attr('src', '../img/theme/' + result.imagePath3);
+				},
+				error: ( jqXHR, textStatus, errorThrown ) => { 
+					console.error(textStatus, errorThrown);
+				}
+			});
+		});
+
+	//- script(src='../js/template/jquery.min.js')
+	//- script(src='../js/template/jquery.easing.1.3.js')
+	//- script(src='../js/template/bootstrap.min.js')
+	//- script(src='../js/template/owl.carousel.min.js')
+	//- script(src='../js/template/jquery.magnific-popup.min.js')
+	//- script(src='../js/template/magnific-popup-options.js')
+	//- script(src='../js/template/main.js')
+
+
+			

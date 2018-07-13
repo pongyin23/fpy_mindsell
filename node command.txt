@@ -1,0 +1,7 @@
+1. start the node project
+	i. set DEBUG=mindsell:* & npm start
+	ii. go to browser and type url "localhost:3000"
+
+2. convert html to pug
+	i. cd to the directory
+	ii. html2pug < yourfile.html > yourfile.pug

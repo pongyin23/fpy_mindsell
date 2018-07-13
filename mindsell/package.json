@@ -1,0 +1,30 @@
+{
+  "name": "mindsell",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "~1.18.2",
+    "bootstrap-slider": "^10.0.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.15.5",
+    "express-session": "^1.15.6",
+    "fabric": "^2.1.0",
+    "formidable": "^1.1.1",
+    "git": "^0.1.5",
+    "github": "^11.0.0",
+    "morgan": "~1.9.0",
+    "mysql": "^2.15.0",
+    "nodeadmin": "^0.1.2",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "passport-oauth2": "^1.4.0",
+    "pug": "2.0.0-beta11",
+    "serve-favicon": "~2.4.5"
+  }
+}

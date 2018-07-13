@@ -1,0 +1,39 @@
+extend layout
+block content
+	.container
+		.row
+			.col-md-6.col-md-offset-3
+				.panel.panel-login
+					.panel-heading
+						.row
+							.col-ms-12
+								a#title(href='/')
+									| MindSell
+						hr
+					.panel-body
+						.row
+							.col-lg-12
+								form#login-form(action='/login', method='post', role='form', autocomplete='off')
+									.form-group
+										input#username.form-control.required(type='text', name='username', tabindex='1', placeholder='Username' pattern='[a-zA-Z0-9]{5,}', title='Minimum 5 letters or numbers.')
+										.text-danger Please fill out
+									.form-group
+										input#password.form-control.required(type='password', name='password', tabindex='2', placeholder='Password' pattern='.{8,}', title='Minmimum 8 letters or numbers.')
+										.text-danger Please fill out 
+									span.forgot-password.color-blue(style='margin-bottom:10px')
+										a(href='') Forgot password?
+									-if(message.length > 0) {
+										.form-group(style='margin-top:10px')
+											.col-sm-12.controls.center-text
+												span#error-message(style='color: red')
+													i
+													|  #{message}
+									-}                 
+									.form-group
+										.row
+											.col-sm-6.col-sm-offset-3
+												input#btn-login.btn.btn-block.btn-success(name='submit', type='submit' value='Login')
+									.col-sm-12.controls
+										span.color.blue
+											|  Don't have a account? 
+											a(href='/registration') Sign up here

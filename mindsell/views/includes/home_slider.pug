@@ -1,0 +1,87 @@
+.container
+	section.sliderpanel
+		header#myCarousel.carousel.slide.myslider(data-interval='3000', data-ride='carousel')
+			// Carousel indicators 
+			ol.carousel-indicators
+				li.active(data-target='#myCarousel', data-slide-to='0')
+				li(data-target='#myCarousel', data-slide-to='1')
+				li(data-target='#myCarousel', data-slide-to='2')
+				li(data-target='#myCarousel', data-slide-to='3')
+				li(data-target='#myCarousel', data-slide-to='4')
+			// Carousel items 
+			.carousel-inner
+				.item.active
+					a(href='http://localhost:3000/theme')
+						img.img-responsive(src='/img/slider_craft0.jpg' style='display: block; margin-left: auto;margin-right: auto;')#cover-theme
+						.bottom-left#cover-title
+				.item
+					a(href='http://localhost:3000/theme?id=11')
+						img.img-responsive(src='/img/slider_calligraphy1.jpeg')
+				.item
+					a(href='http://localhost:3000/theme')
+						img.img-responsive(src='/img/slider_photo0.jpg')
+				.item
+					a(href='http://localhost:3000/theme')
+						img.img-responsive(src='/img/slider_cooking0.jpg')
+				.item
+					a(href='http://localhost:3000/theme')
+						img.img-responsive(src='/img/slider_boardgame1.jpg')
+			// Carousel nav 
+			a.carousel-control.left(data-slide='prev', href='#myCarousel') ‹
+			a.carousel-control.right(data-slide='next', href='#myCarousel') ›
+// end of sliderpanel
+.modal.fade#myModal(role='dialog')
+	.modal-dialog(style="width:70%")
+		.modal-content(style="background: #f4e7c1;")
+			.modal-header
+				button(class="close" data-dismiss="modal") &times;
+				h3(class="modal-title" style="text-align: center;")#theme-title
+			.modal-body
+				.row
+					.col-md-6
+						img.img-responsive(alt='theme image' style="height:70%; width:70%; margin-right:0px; margin-left:20px;")#theme-image-one
+					.col-md-6(style="margin-right20px;")
+						p#theme-intro(style="margin-top:10px; font-size:18px;")
+			.modal-footer
+				a(href="http://localhost:3000/theme" type="button" class="btn btn-info" data-dismiss="modal")#theme-redirect More details
+script.
+	$(document).ready(()=>{
+
+		if (!getCookie('firsttime')){
+			$('#myModal').modal(); // every 2nd time
+		    setCookie('firsttime',true);
+		}else{
+			delCookie('firsttime');
+		}
+		$('#theme-redirect').on('click', function() {
+			window.location.replace('http://localhost:3000/theme');
+		});
+
+		$.ajax({
+			url: '/theme/getTheme',
+			type: 'GET',
+
+			success: function(result) {
+				console.log("Theme = " + result.imagePath1);
+				$('#theme-title').html(result.title);
+				$('#theme-intro').html(result.introduction);
+				$('#theme-hist').html(result.history);
+				$('#theme-content').html(result.content);
+				if (result.imagePath1 != null){
+					$('#theme-image-one').attr('src', '../img/theme/' + result.imagePath1);
+					$('#cover-title').html(result.title);
+					console.log(result.title)
+
+				}
+				$('#cover-theme').attr('src', '../img/theme/' + result.imagePath1);
+			},
+			error: ( jqXHR, textStatus, errorThrown ) => { 
+				console.error(textStatus, errorThrown);
+			}
+		});
+	});
+	function setCookie(c_name,value,exdays){var exdate=new Date();exdate.setDate(exdate.getDate() + exdays);var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());document.cookie=c_name + "=" + c_value;}
+
+	function getCookie(c_name){var c_value = document.cookie;var c_start = c_value.indexOf(" " + c_name + "=");if (c_start == -1){c_start = c_value.indexOf(c_name + "=");}if (c_start == -1){c_value = null;}else{c_start = c_value.indexOf("=", c_start) + 1;var c_end = c_value.indexOf(";", c_start);if (c_end == -1){c_end = c_value.length;}c_value = unescape(c_value.substring(c_start,c_end));}return c_value;}
+
+	function delCookie(name){document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';}

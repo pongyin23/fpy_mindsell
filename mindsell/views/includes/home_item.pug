@@ -1,0 +1,129 @@
+script(src='../js/home_item.js')
+.item-carousel
+	.row.title
+		h4 Recent &nbsp;
+			a(href='/course/course_list') View more
+	.row
+		.col-md-12
+			.carousel.slide.media-carousel#recent
+				.carousel-inner#recentCourses
+				a.left.carousel-control(data-slide='prev', href='#recent') ‹
+				a.right.carousel-control(data-slide='next', href='#recent') ›
+	.row.title
+		h4 Popular &nbsp;
+			a(href='/course/course_list') View more
+	.row
+		.col-md-12
+			.carousel.slide.media-carousel#popular
+				.carousel-inner#popularCourses
+				a.left.carousel-control(data-slide='prev', href='#popular') ‹
+				a.right.carousel-control(data-slide='next', href='#popular') ›
+	.row.title
+		h4 Highest Rating &nbsp;
+			a(href='/course/course_list') View more
+	.row
+		.col-md-12
+			.carousel.slide.media-carousel#rating
+				.carousel-inner#ratingCourses
+				a.left.carousel-control(data-slide='prev', href='#rating') ‹
+				a.right.carousel-control(data-slide='next', href='#rating') ›
+
+	script.
+		$(document).ready(()=>{
+			var recentCourses = !{JSON.stringify(recentCourses)};
+			var recentCoursesId = 'recentCourses';
+			renderPopularCourses(recentCourses,recentCoursesId);
+			var popularCourses = !{JSON.stringify(popularCourses)};
+			var popularCoursesId = 'popularCourses';
+			renderPopularCourses(popularCourses,popularCoursesId);
+			var ratingCourses = !{JSON.stringify(ratingCourses)};
+			var ratingCoursesId = 'ratingCourses';
+			renderPopularCourses(ratingCourses,ratingCoursesId);
+		});
+
+		//- function renderPopularCourses(filteredCourses,id){
+		//- 	//- var filteredCourses = !{JSON.stringify(courses)};
+
+		//- 	var list = document.getElementById(id);
+		//- 	list.innerHTML = '';
+
+		//- 	//- var reminder = filteredCourses.length%6;
+
+		//- 	for(var i = 0; i < (filteredCourses.length); i+=6) {
+
+		//- 		var course = [];
+
+		//- 		for(var j =0; j<6; j++){
+		//- 			if (j+i== filteredCourses.length){
+		//- 				break;
+		//- 			}
+		//- 			// Create html code for showing course details
+		//- 			course[j] = document.createElement('div');
+		//- 			course[j].setAttribute('class', 'col-md-2');
+		//- 			course[j].setAttribute('title', filteredCourses[j+i].title);
+		//- 			var courseLink = document.createElement('a');
+		//- 			courseLink.setAttribute('href', '/course/details?courseId=' + filteredCourses[j+i].courseId);
+		//- 			var courseImg = document.createElement('img');
+		//- 			// TODO: select the image by courseId fomr database
+		//- 			courseImg.setAttribute('src', filteredCourses[j+i].image == null ? '../img/empty_img.gif' : '../img/course/' + filteredCourses[j+i].image);
+		//- 			courseImg.setAttribute('class', 'img-responsive');
+		//- 			var content = document.createElement('div');
+		//- 			content.setAttribute('class', 'ss-item-text');
+		//- 			var title = document.createElement('h5');
+		//- 			title.setAttribute('class', 'item-title');
+		//- 			$(title).html(filteredCourses[j+i].title);
+		//- 			var details = document.createElement('h5');
+		//- 			details.setAttribute('class', 'item-details');
+		//- 			var price = document.createElement('i');
+		//- 			price.setAttribute('class', 'item-price');
+		//- 			if(filteredCourses[j+i].price) {
+		//- 				$(price).html('$' + filteredCourses[j+i].price);
+		//- 			}
+		//- 			else {
+		//- 				$(price).html('Free');
+		//- 			}
+					
+		//- 			// TODO: select student number of course
+		//- 			var studentNum = document.createElement('i');
+		//- 			studentNum.setAttribute('class', 'student-count fa fa-user-o');
+		//- 			$(studentNum).html('&nbsp;' + 0);
+		//- 			var favoriteNum = document.createElement('i');
+		//- 			favoriteNum.setAttribute('class', 'favorite-count fa fa-heart-o');
+		//- 			$(favoriteNum).html('&nbsp;' + filteredCourses[j+i].popularity + '&nbsp;');
+
+		//- 			details.appendChild(price);
+		//- 			details.appendChild(studentNum);
+		//- 			details.appendChild(favoriteNum);
+		//- 			//- title.appendChild(details);
+		//- 			content.appendChild(title);
+		//- 			content.appendChild(details);
+		//- 			courseLink.appendChild(courseImg);
+		//- 			course[j].appendChild(courseLink);
+		//- 			course[j].appendChild(content);
+		//- 		}
+		//- 		//- var ss-item = document.createElement('div');
+		//- 		//- item.setAttribute('class','item.row.ss-item');
+		//- 		//- var row = document.createElement('div');
+		//- 		//- item.setAttribute('class','item.row.ss-item');
+		//- 		var item = document.createElement('div');
+
+		//- 		if (i==0){
+		//- 			item.setAttribute('class','item active row ss-item');
+		//- 		} else{
+		//- 			item.setAttribute('class','item row ss-item');
+		//- 		}
+
+		//- 		for(var j =0; j<6; j++){
+		//- 			if (j+i == filteredCourses.length){
+		//- 				break;
+		//- 			}
+		//- 			item.appendChild(course[j]);
+		//- 		}
+				
+		//- 		list.appendChild(item);
+
+		//- 	}      
+
+		//- }
+
+
